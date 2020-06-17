@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import classes from './myApp.module.css';
 
-import Person from './Person/Person';
+import Person from '../components/Persons/Person/Person';
 //import styled from 'styled-components';
 
 
