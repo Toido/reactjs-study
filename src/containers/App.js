@@ -1,8 +1,8 @@
 //import React, { useState } from 'react'; for Hook
 import React, { Component } from 'react';
 import classes from './myApp.module.css';
-
-import Person from '../components/Persons/Person/Person';
+import Cockpit from '../components/Cockpit/Cockpit'
+import Persons from '../components/Persons/Persons';
 //import styled from 'styled-components';
 
 
@@ -36,17 +36,6 @@ class App extends Component {
     otherState: 'Some random string',
     showPersons: false
   }
-
-  // buttonClickHandler = (newName) => { //named as switchNameHandler in guide
-  //   this.setState({
-  //   persons : [
-  //     {name: 'Link', age: 117},
-  //     {name: 'Zelda', age: 117},
-  //     {name: 'Ganon', age: '???'},
-  //     {name: newName, age: 50}
-  //   ]
-  //   })
-  // }
 
   deletePersonHandler = (personIndex) => {
     //const newPersonState = this.state.persons.slice() //Alternative way to copy the state array (old way)
@@ -85,97 +74,28 @@ class App extends Component {
   }
 
   render(){
-
-    //Sample inline CSS
-    //=======================================
-    // const style = {
-    //   backgroundColor: 'Green',
-    //   color: 'White',
-    //   font: 'inherit',
-    //   border: '1px solid blue',
-    //   padding: '8px',
-    //   cursor: 'pointer',
-    //   ':hover': {
-    //     backgroundColor: 'lightgreen',
-    //     color: 'black'
-    //   }
-    // }
-    //========================================
-
     let displayPerson = null;
 
-    let btnClass = '';
-    
     if (this.state.showPersons) {
-      displayPerson = (
-        <div>
-          {this.state.persons.map((person, index) => {
-              return <Person 
-                click = {() => this.deletePersonHandler(index)}
-                name = {person.name}
-                age = {person.age}
-                change = {(event) => this.textChangeHandler(event, person.id)}
-                key = {person.id}/>
-            })}
-        </div> 
-      );
-      
-      btnClass = classes.Red;
-      
-      // style.backgroundColor = 'Red';
-      
-      // style[':hover'] = {
-      //   backgroundColor: 'pink',
-      //   color: 'black'
-      // };
-
+      displayPerson = <Persons 
+          clicked = {this.deletePersonHandler}
+          changed = {this.textChangeHandler}
+          persons = {this.state.persons}
+          />
       }
-
-        // displayPerson = (
-        //   <div>
-        //     <Person 
-        //       name ={this.state.persons[0].name} 
-        //       age ={this.state.persons[0].age}
-        //       click = {() => this.buttonClickHandler('Wumpa')}/> {/* Alternative way to pass methods between components */}
-        //     <Person 
-        //       name ={this.state.persons[1].name} 
-        //       age ={this.state.persons[1].age}
-        //       click = {this.buttonClickHandler.bind(this, 'Rhodea')}>Hobbies: Researching</Person> {/* Recommended way to pass methods between components */}
-        //     <Person 
-        //       name ={this.state.persons[2].name} 
-        //       age ={this.state.persons[2].age}/>
-        //       <Person 
-        //       name ={this.state.persons[3].name} 
-        //       age ={this.state.persons[3].age}
-        //       change = {this.textChangeHandler}/>
-        //     </div>
-        // );
-      
-    //}
-
-    const assignedClasses = [];
-    if(this.state.persons.length <= 2){
-      assignedClasses.push(classes.red);
-    };
-    if (this.state.persons.length <=1 ){
-      assignedClasses.push(classes.bold);
-    };
 
     return(
         <div className={classes.App}>
-          <h1>Hi, I'm a React App</h1>
-          <p className= {assignedClasses.join(' ')}>This is really working</p>
-          {/* <StyledButton alt = {this.state.showPersons}  */}
-          <button className = {btnClass}
-            onClick={this.togglePersonDivHandler}>Ganon Wins</button>
-          {/* </StyledButton>  */}
+          <Cockpit 
+            persons = {this.state.persons}
+            showPersons = {this.state.persons.showPersons}
+            clicked = {this.togglePersonDivHandler}
+          />
           {displayPerson}
-        </div>
-      
+        </div>      
     )
   }
 }
-
 export default App;
 
 //=============================================================================
