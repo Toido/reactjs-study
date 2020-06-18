@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import classes from './myApp.module.css';
 import Cockpit from '../components/Cockpit/Cockpit'
 import Persons from '../components/Persons/Persons';
+import withClass from '../hoc/withClass';
+import Aux from '../hoc/Auxillary'
 //import styled from 'styled-components';
 
 
@@ -111,7 +113,7 @@ class App extends Component {
       }
 
     return(
-        <div className={classes.App}>
+        <Aux>
           <button onClick = {() => {
             this.setState({
               showCockpit: false
@@ -121,16 +123,16 @@ class App extends Component {
           <Cockpit
             title = {this.props.appTitle}
             personsLength = {this.state.persons.length}
-            showPersons = {this.state.persons.showPersons}
+            showPersons = {this.state.showPersons}
             clicked = {this.togglePersonDivHandler}
           /> : null
           }
           {displayPerson}
-        </div>      
+        </Aux>   
     )
   }
 }
-export default App;
+export default withClass(App, classes.App);
 
 //=============================================================================
 //REACT HOOK Sample
