@@ -43,7 +43,8 @@ class App extends Component {
     ],
     otherState: 'Some random string',
     showPersons: false,
-    showCockpit: true
+    showCockpit: true,
+    changeCounter: 0
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -75,9 +76,12 @@ class App extends Component {
     const newPerson = [...this.state.persons];
     newPerson[personIndex] = oldPerson;
 
-    this.setState({
-      persons : newPerson
-      })
+    this.setState((prevState, props) => {
+      return {
+        persons : newPerson,
+        changeCounter : prevState.changeCounter + 1
+        };
+    });
   }
 
   togglePersonDivHandler = () => {
