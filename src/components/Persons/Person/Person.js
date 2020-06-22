@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import classes from  './Person.css';
 import Aux from '../../../hoc/Auxillary.js';
 import withClass from '../../../hoc/withClass';
+import AuthContext from '../../../context/auth-context';
 
 // const StyledDiv = styled.div`
 // width: 60%;
@@ -24,9 +25,12 @@ class Person extends Component {
         this.inputElementRef = React.createRef();
     }
 
+    static contextType = AuthContext;
+
     componentDidMount() {
         // this.inputElement.focus();
         this.inputElementRef.current.focus();
+        console.log(this.context.isAuthenticated);
     }
 
     render() {
@@ -34,6 +38,10 @@ class Person extends Component {
         return (
             //<div className = {classes.Person}>
             <Aux>
+                {/* <AuthContext.Consumer> */}
+                {/* {(context) => context.isAuthenticated ? <p>Authenticated!</p> : <p>Please log in</p>} */}
+                {/* </AuthContext.Consumer> */}
+                {this.context.isAuthenticated ? <p>Authenticated</p> : <p>Please Log in</p>}
                 <p onClick = {this.props.click}>
                     Hi, I'm {this.props.name} and I'm {this.props.age} years old!
                 </p>

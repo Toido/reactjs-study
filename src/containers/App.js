@@ -4,7 +4,8 @@ import classes from './myApp.module.css';
 import Cockpit from '../components/Cockpit/Cockpit'
 import Persons from '../components/Persons/Persons';
 import withClass from '../hoc/withClass';
-import Aux from '../hoc/Auxillary'
+import Aux from '../hoc/Auxillary';
+import AuthContext from '../context/auth-context';
 //import styled from 'styled-components';
 
 
@@ -44,7 +45,8 @@ class App extends Component {
     otherState: 'Some random string',
     showPersons: false,
     showCockpit: true,
-    changeCounter: 0
+    changeCounter: 0,
+    isAuthenticated: false
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -84,6 +86,12 @@ class App extends Component {
     });
   }
 
+  loginHandler = () => {
+    this.setState({
+      isAuthenticated: !this.state.isAuthenticated
+    })
+  }
+
   togglePersonDivHandler = () => {
     const doesShow = this.state.showPersons;
     this.setState({
@@ -113,6 +121,7 @@ class App extends Component {
           clicked = {this.deletePersonHandler}
           changed = {this.textChangeHandler}
           persons = {this.state.persons}
+          isAuthenticated = {this.state.isAuthenticated}
           />
       }
 
@@ -123,15 +132,22 @@ class App extends Component {
               showCockpit: false
             })
           }}> Clear Cockpit </button>
-          {this.state.showCockpit ?
-          <Cockpit
-            title = {this.props.appTitle}
-            personsLength = {this.state.persons.length}
-            showPersons = {this.state.showPersons}
-            clicked = {this.togglePersonDivHandler}
-          /> : null
-          }
-          {displayPerson}
+          <AuthContext.Provider 
+            value={{
+              isAuthenticated: this.state.isAuthenticated,
+              login: this.loginHandler}}
+          >
+            {this.state.showCockpit ? (
+              <Cockpit
+                title = {this.props.appTitle}
+                personsLength = {this.state.persons.length}
+                showPersons = {this.state.showPersons}
+                clicked = {this.togglePersonDivHandler}
+              />
+            ) : null
+            }
+            {displayPerson}
+          </AuthContext.Provider>
         </Aux>   
     )
   }

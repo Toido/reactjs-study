@@ -1,8 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import classes from './Cockpit.css';
-
+import AuthContext from '../../context/auth-context'
+import authContext from '../../context/auth-context';
 
 const cockpit = ( props ) => {
+    const toggleBtnRef = useRef(null);
+
+    const authContext = useContext(AuthContext);
+
     useEffect(() => {
         console.log('[Cockpit.js] useEffect');
         //Http request..
@@ -17,9 +22,11 @@ const cockpit = ( props ) => {
             clearTimeout(timer);
         )
         */
-        setTimeout(() => {
-            alert('Saved data to cloud!');
-        }, 1000);
+        // setTimeout(() => {
+        //     alert('Saved data to cloud!');
+        // }, 1000);
+            
+        toggleBtnRef.current.click();
         return () => {
             console.log('[Cockpit.js] cleanup work in useEffect'); //Cleanup for useEffect
         };
@@ -51,8 +58,16 @@ const cockpit = ( props ) => {
             <h1>{props.title}</h1>
             <p className= {assignedClasses.join(' ')}>This is really working</p>
             {/* <StyledButton alt = {this.state.showPersons}  */}
-            <button className = {btnClass}
-                onClick={props.clicked}>Ganon Wins</button>
+            <button
+                ref = {toggleBtnRef} 
+                className = {btnClass}
+                onClick={props.clicked}>
+                    Ganon Wins
+            </button>
+            {/* <AuthContext.Consumer> */}
+                {/* {(context) => <button onClick={context.login}>{context.isAuthenticated ? "Log out" : "Log in"}</button>} */}
+            {/* </AuthContext.Consumer> */}
+            {<button onClick={authContext.login}>{authContext.isAuthenticated ? "Log out" : "Log in"}</button>}
             {/* </StyledButton>  */}
         </div>
     )
